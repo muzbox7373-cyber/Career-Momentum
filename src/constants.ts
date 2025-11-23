@@ -47,6 +47,8 @@ export const FAQS = [
   }
 ];
 
-export const TIME_SLOTS = [
-  "19:00", "20:00", "21:00", "22:00"
-];
+export const TIME_SLOTS = {
+  morning: ["10:00", "11:00"],
+  afternoon: ["14:00", "15:00", "16:00"],
+  evening: ["19:00", "20:00", "21:00", "22:00"]
+};

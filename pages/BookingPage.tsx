@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, CheckCircle, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import { BOOKING_HEADER } from '../src/images/assets';
@@ -108,9 +108,15 @@ const BookingPage: React.FC = () => {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
-        <Link to="/" className="inline-flex items-center text-white/80 hover:text-white mb-6 text-sm font-medium">
-          <ArrowLeft className="h-4 w-4 mr-1" /> 홈으로 돌아가기
-        </Link>
+        <div className="flex gap-4 mb-6">
+          <Link to="/" className="inline-flex items-center text-white/80 hover:text-white text-sm font-medium">
+            <ArrowLeft className="h-4 w-4 mr-1" /> 홈으로 돌아가기
+          </Link>
+          <span className="text-white/50">|</span>
+          <Link to="/profile" className="inline-flex items-center text-white/80 hover:text-white text-sm font-medium">
+            <User className="h-4 w-4 mr-1" /> 멘토 프로필 다시보기
+          </Link>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {/* Left Column: Calendar & Time */}
@@ -160,20 +166,29 @@ const BookingPage: React.FC = () => {
               {!selectedDate ? (
                 <p className="text-gray-400 text-sm">위에서 날짜를 먼저 선택해주세요.</p>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {TIME_SLOTS.map((time) => (
-                    <button
-                      key={time}
-                      onClick={() => setSelectedTime(time)}
-                      className={`
-                        py-3 px-4 rounded-lg font-medium border transition-all
-                        ${selectedTime === time
-                          ? 'bg-secondary text-white border-secondary shadow-md'
-                          : 'bg-white text-gray-600 border-gray-200 hover:border-secondary hover:text-secondary'}
-                      `}
-                    >
-                      {time}
-                    </button>
+                <div className="space-y-4">
+                  {Object.entries(TIME_SLOTS).map(([period, times]) => (
+                    <div key={period}>
+                      <h3 className="text-sm font-bold text-gray-500 mb-2 uppercase">
+                        {period === 'morning' ? '오전' : period === 'afternoon' ? '오후' : '저녁'}
+                      </h3>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                        {times.map((time) => (
+                          <button
+                            key={time}
+                            onClick={() => setSelectedTime(time)}
+                            className={`
+                              py-2 px-3 rounded-lg font-medium border transition-all text-sm
+                              ${selectedTime === time
+                                ? 'bg-secondary text-white border-secondary shadow-md'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-secondary hover:text-secondary'}
+                            `}
+                          >
+                            {time}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
